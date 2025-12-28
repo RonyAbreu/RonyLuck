@@ -1,3 +1,10 @@
+/* Reset e Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -8,15 +15,17 @@ body.dark {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
+/* Tipografia */
 .game-title {
     font-family: 'Press Start 2P', cursive;
     text-shadow: 4px 4px 0px rgba(0,0,0,0.3);
 }
 
+/* Cards */
 .card-game {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
-    border: 3px solid #f59e0b;
+    border: 3px solid #d97706;
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
 }
@@ -31,9 +40,10 @@ body.dark .card-game {
     box-shadow: 0 15px 50px rgba(0,0,0,0.4);
 }
 
+/* Botões */
 .btn-game {
-    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+    box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4);
     transition: all 0.3s ease;
     font-weight: 700;
     text-transform: uppercase;
@@ -42,7 +52,7 @@ body.dark .card-game {
 
 .btn-game:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
+    box-shadow: 0 6px 25px rgba(234, 88, 12, 0.6);
 }
 
 body.dark .btn-game {
@@ -50,19 +60,20 @@ body.dark .btn-game {
     box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
 }
 
+/* Navegação */
 .nav-game {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-bottom: 3px solid #f59e0b;
+    border-bottom: 3px solid #d97706;
 }
 
 body.dark .nav-game {
-    background: rgba(20, 20, 35, 0.9);
+    background: rgba(20, 20, 35, 0.95);
     border-bottom-color: #60a5fa;
 }
 
 .nav-btn {
-    color: #374151;
+    color: #1f2937;
     transition: all 0.3s ease;
 }
 
@@ -71,7 +82,7 @@ body.dark .nav-btn {
 }
 
 .nav-btn:hover {
-    color: #f59e0b;
+    color: #ea580c;
 }
 
 body.dark .nav-btn:hover {
@@ -83,18 +94,18 @@ body.dark .nav-btn:hover {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #f59e0b;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #d97706;
     border-radius: 12px;
     font-weight: 700;
-    color: #374151;
+    color: #1f2937;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 body.dark .back-btn {
-    background: rgba(30, 30, 50, 0.9);
+    background: rgba(30, 30, 50, 0.95);
     border-color: #60a5fa;
     color: #ffffff;
 }
@@ -104,10 +115,11 @@ body.dark .back-btn {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Resultado */
 .result-text {
     font-size: 3rem;
     font-weight: 900;
-    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -126,6 +138,7 @@ body.dark .result-text {
     50% { opacity: 0.8; }
 }
 
+/* Lista de Números */
 .number-list {
     display: flex;
     flex-wrap: wrap;
@@ -149,27 +162,38 @@ body.dark .result-text {
     to { opacity: 1; transform: scale(1); }
 }
 
+/* Inputs */
 .input-game {
-    border: 3px solid #f59e0b;
+    border: 3px solid #d97706;
     font-size: 1.2rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1f2937;
 }
 
 body.dark .input-game {
     border-color: #60a5fa;
-    background: rgba(30, 30, 50, 0.8);
+    background: rgba(30, 30, 50, 0.9);
     color: white;
 }
 
 .input-game:focus {
-    border-color: #ef4444;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    border-color: #ea580c;
+    box-shadow: 0 0 20px rgba(234, 88, 12, 0.3);
 }
 
 body.dark .input-game:focus {
     border-color: #a78bfa;
     box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+}
+
+.input-game::placeholder {
+    color: #6b7280;
+}
+
+body.dark .input-game::placeholder {
+    color: #9ca3af;
 }
 
 /* Canvas Container */
@@ -180,4 +204,75 @@ body.dark .input-game:focus {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 1rem;
+    }
+    
+    .result-text {
+        font-size: 2rem;
+    }
+    
+    .canvas-container {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .card-game {
+        border-width: 2px;
+    }
+    
+    .number-badge {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .canvas-container {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .result-text {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .game-title {
+        font-size: 0.85rem;
+    }
+    
+    .canvas-container {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .card-game {
+        padding: 1rem !important;
+    }
+    
+    .btn-game, .back-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .result-text {
+        font-size: 1.5rem;
+    }
+    
+    .number-badge {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
 }
