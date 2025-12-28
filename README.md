@@ -83,77 +83,6 @@
 
 ---
 
-## 📁 Estrutura do Projeto
-
-```
-ronyluck/
-│
-├── index.html          # Página inicial
-├── sorteio.html        # Página do sorteador
-├── dado.html           # Página do dado
-├── moeda.html          # Página da moeda
-│
-├── styles.css          # Estilos globais
-│
-├── shared.js           # Código compartilhado (tema)
-├── sorteio.js          # Lógica do sorteador
-├── dado.js             # Lógica do dado 3D
-└── moeda.js            # Lógica da moeda 3D
-```
-
----
-
-## 🎯 Como Usar
-
-### 1️⃣ Clone o Repositório
-
-```bash
-git clone https://github.com/seu-usuario/ronyluck.git
-cd ronyluck
-```
-
-### 2️⃣ Abra no Navegador
-
-Simplesmente abra o arquivo `index.html` no seu navegador favorito ou use um servidor local:
-
-```bash
-# Com Python
-python -m http.server 8000
-
-# Com Node.js (http-server)
-npx http-server
-
-# Com PHP
-php -S localhost:8000
-```
-
-### 3️⃣ Acesse
-
-Abra `http://localhost:8000` no navegador e comece a usar! 🎉
-
----
-
-## 🎨 Temas
-
-O RonyLuck possui dois temas:
-
-- **☀️ Modo Claro** - Interface limpa e moderna
-- **🌙 Modo Escuro** - Perfeito para ambientes com pouca luz
-
-O tema é salvo automaticamente no localStorage e sincronizado entre todas as páginas.
-
----
-
-## 📱 Responsividade
-
-O projeto é totalmente responsivo e foi testado nos seguintes breakpoints:
-
-- 📱 **Mobile**: 375px - 640px
-- 📲 **Tablet**: 640px - 1024px
-- 💻 **Desktop**: 1024px+
-
----
-
 ## 🤝 Contribuindo
 
 Contribuições são sempre bem-vindas! Para contribuir:
@@ -190,7 +119,7 @@ Se este projeto te ajudou, considere dar uma ⭐️!
 
 <div align="center">
 
-**Feito com ❤️ por Rony**
+**Feito por Rony**
 
 🎲 RonyLuck © 2025
 
