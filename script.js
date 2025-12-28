@@ -128,7 +128,6 @@ function initDice() {
     };
 
     // Ordem de materiais do BoxGeometry: direita, esquerda, topo, baixo, frente, trás
-    // Vamos mapear: [3, 4, 5, 2, 1, 6]
     const materials = [
         new THREE.MeshStandardMaterial({ map: createFaceTexture(3) }), // Direita
         new THREE.MeshStandardMaterial({ map: createFaceTexture(4) }), // Esquerda
@@ -145,7 +144,7 @@ function initDice() {
     // Posição inicial mostrando a face 1 perfeitamente de frente
     diceMesh.rotation.set(0, 0, 0);
 
-    // Câmera posicionada DE FRENTE (não diagonal) para mostrar apenas UMA face
+    // Câmera posicionada DE FRENTE para mostrar apenas UMA face
     diceCamera.position.set(0, 0, 6);
     diceCamera.lookAt(0, 0, 0);
 
@@ -154,7 +153,6 @@ function initDice() {
 
 function animateDice() {
     requestAnimationFrame(animateDice);
-    // Dado fica parado - apenas renderiza
     if (diceRenderer && diceScene && diceCamera) {
         diceRenderer.render(diceScene, diceCamera);
     }
@@ -168,17 +166,17 @@ function rollDice() {
 
     // Rotações finais para cada face ficar PERFEITAMENTE DE FRENTE
     const faceRotations = {
-        1: new THREE.Euler(0, 0, 0),                    // Frente (face 1)
-        2: new THREE.Euler(Math.PI / 2, 0, 0),          // Baixo vira para frente (face 2)
-        3: new THREE.Euler(0, -Math.PI / 2, 0),         // Direita vira para frente (face 3)
-        4: new THREE.Euler(0, Math.PI / 2, 0),          // Esquerda vira para frente (face 4)
-        5: new THREE.Euler(-Math.PI / 2, 0, 0),         // Topo vira para frente (face 5)
-        6: new THREE.Euler(0, Math.PI, 0)               // Trás vira para frente (face 6)
+        1: new THREE.Euler(0, 0, 0),
+        2: new THREE.Euler(Math.PI / 2, 0, 0),
+        3: new THREE.Euler(0, -Math.PI / 2, 0),
+        4: new THREE.Euler(0, Math.PI / 2, 0),
+        5: new THREE.Euler(-Math.PI / 2, 0, 0),
+        6: new THREE.Euler(0, Math.PI, 0)
     };
 
     const targetEuler = faceRotations[result];
     
-    const duration = 4000; // 4 segundos de animação
+    const duration = 4000; // 4 segundos
     const startTime = performance.now();
     const startRotation = {
         x: diceMesh.rotation.x,
@@ -199,7 +197,6 @@ function rollDice() {
         if (t < 1) {
             // Fase de rotação caótica (primeiros 85% do tempo)
             if (t < 0.85) {
-                const spinT = t / 0.85;
                 // Rotação contínua e rápida em todos os eixos
                 diceMesh.rotation.x = startRotation.x + (spinSpeedX * elapsed / 1000);
                 diceMesh.rotation.y = startRotation.y + (spinSpeedY * elapsed / 1000);
@@ -208,7 +205,7 @@ function rollDice() {
             // Fase de desaceleração e posicionamento final (últimos 15%)
             else {
                 const slowT = (t - 0.85) / 0.15;
-                const easeT = 1 - Math.pow(1 - slowT, 4); // Easing suave
+                const easeT = 1 - Math.pow(1 - slowT, 4);
                 
                 // Interpolar para a rotação final
                 diceMesh.rotation.x = diceMesh.rotation.x + (targetEuler.x - diceMesh.rotation.x) * easeT * 0.3;
@@ -239,68 +236,99 @@ function initCoin() {
     coinRenderer.setSize(300, 300);
     container.appendChild(coinRenderer.domElement);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    // Lighting melhorada para ver bem ambos os lados
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     coinScene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
-    directionalLight.position.set(5, 5, 5);
-    coinScene.add(directionalLight);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.7);
+    dirLight1.position.set(5, 10, 5);
+    coinScene.add(dirLight1);
+    const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+    dirLight2.position.set(-5, -5, 5);
+    coinScene.add(dirLight2);
 
-    // Criar texturas para CARA e COROA
-    const createCoinTexture = (text) => {
+    // Criar texturas DETALHADAS para CARA e COROA
+    const createCoinTexture = (text, isHeads) => {
         const canvas = document.createElement('canvas');
         canvas.width = 512;
         canvas.height = 512;
         const ctx = canvas.getContext('2d');
 
-        // Fundo dourado com gradiente
+        // Fundo dourado com gradiente radial
         const gradient = ctx.createRadialGradient(256, 256, 50, 256, 256, 256);
         gradient.addColorStop(0, '#ffd700');
-        gradient.addColorStop(0.7, '#ffed4e');
-        gradient.addColorStop(1, '#daa520');
+        gradient.addColorStop(0.5, '#ffed4e');
+        gradient.addColorStop(0.8, '#daa520');
+        gradient.addColorStop(1, '#b8860b');
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(256, 256, 250, 0, Math.PI * 2);
         ctx.fill();
 
-        // Borda da moeda
+        // Borda externa decorativa
+        ctx.strokeStyle = '#8b6914';
+        ctx.lineWidth = 20;
+        ctx.beginPath();
+        ctx.arc(256, 256, 240, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Círculos decorativos internos
         ctx.strokeStyle = '#b8860b';
-        ctx.lineWidth = 10;
-        ctx.beginPath();
-        ctx.arc(256, 256, 245, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // Círculo interno
-        ctx.strokeStyle = '#daa520';
         ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(256, 256, 200, 0, Math.PI * 2);
-        ctx.stroke();
+        for (let i = 0; i < 3; i++) {
+            ctx.beginPath();
+            ctx.arc(256, 256, 220 - i * 10, 0, Math.PI * 2);
+            ctx.stroke();
+        }
 
-        // Texto
-        ctx.fillStyle = '#8b6914';
-        ctx.font = 'bold 80px Arial';
+        // Texto principal GRANDE e LEGÍVEL
+        ctx.fillStyle = '#654321';
+        ctx.font = 'bold 100px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(text, 256, 256);
+
+        // Adicionar símbolo decorativo
+        if (isHeads) {
+            // Estrela para CARA
+            ctx.fillStyle = '#8b6914';
+            ctx.font = 'bold 70px Arial';
+            ctx.fillText('★', 256, 170);
+        } else {
+            // Coroa para COROA
+            ctx.fillStyle = '#8b6914';
+            ctx.font = 'bold 60px Arial';
+            ctx.fillText('♔', 256, 170);
+        }
+
+        // Ano na parte inferior
+        ctx.fillStyle = '#8b6914';
+        ctx.font = 'bold 35px Arial';
+        ctx.fillText('2025', 256, 360);
 
         return new THREE.CanvasTexture(canvas);
     };
 
     // Criar geometria e materiais
-    const geometry = new THREE.CylinderGeometry(1.5, 1.5, 0.15, 64);
+    const geometry = new THREE.CylinderGeometry(1.5, 1.5, 0.2, 64);
     const materials = [
-        new THREE.MeshPhongMaterial({ color: 0xdaa520, shininess: 100 }), // Lateral
-        new THREE.MeshPhongMaterial({ map: createCoinTexture('CARA'), shininess: 100 }), // Topo (CARA)
-        new THREE.MeshPhongMaterial({ map: createCoinTexture('COROA'), shininess: 100 }) // Base (COROA)
+        new THREE.MeshPhongMaterial({ color: 0xb8860b, shininess: 100 }), // Lateral
+        new THREE.MeshPhongMaterial({ map: createCoinTexture('CARA', true), shininess: 100 }), // Topo (CARA)
+        new THREE.MeshPhongMaterial({ map: createCoinTexture('COROA', false), shininess: 100 }) // Base (COROA)
     ];
 
     coinMesh = new THREE.Mesh(geometry, materials);
-    coinMesh.rotation.x = Math.PI / 2;
+    
+    // Posição inicial: moeda deitada mostrando CARA para cima
+    coinMesh.rotation.x = 0;
     coinMesh.rotation.y = 0;
+    coinMesh.rotation.z = 0;
+    coinMesh.position.y = 0;
+    
     coinScene.add(coinMesh);
 
-    coinCamera.position.z = 5;
+    // Câmera posicionada DE CIMA olhando para a moeda
+    coinCamera.position.set(0, 5, 2);
+    coinCamera.lookAt(0, 0, 0);
 
     animateCoin();
 }
@@ -315,30 +343,88 @@ function flipCoin() {
     isFlipping = true;
 
     const result = Math.random() < 0.5 ? 'Cara' : 'Coroa';
-    const targetRotationY = result === 'Cara' ? 0 : Math.PI;
-    const startRotationY = coinMesh.rotation.y;
-    const startTime = Date.now();
-    const duration = 2500;
-    const extraFlips = 5;
+    
+    const duration = 3000; // 3 segundos
+    const startTime = performance.now();
+    
+    // Posição e rotação inicial
+    const startPos = coinMesh.position.y;
+    const startRotX = coinMesh.rotation.x;
+    const startRotY = coinMesh.rotation.y;
+    
+    // Rotação final: Cara = 0 (topo para cima), Coroa = Math.PI (base para cima)
+    const targetRotationX = result === 'Cara' ? 0 : Math.PI;
+    
+    // Número de rotações completas no ar (8-12 flips)
+    const numFlips = Math.floor(Math.random() * 5) + 8; // 8-12 flips
+    const totalRotationX = (numFlips * Math.PI * 2) + targetRotationX;
+    
+    // Rotação em Y para efeito 3D (2-3 voltas)
+    const totalRotationY = (Math.random() * 2 + 2) * Math.PI * 2;
 
     // Limpar resultado anterior
     document.getElementById('coin-result').textContent = '';
 
     function animate() {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const now = performance.now();
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / duration, 1);
 
-        if (progress < 1) {
-            coinMesh.rotation.y = startRotationY + (Math.PI * 2 * extraFlips + targetRotationY - startRotationY) * easeProgress;
+        if (t < 1) {
+            // Dividir animação em 3 fases
+            if (t < 0.15) {
+                // Fase 1 (0-15%): Arremesso inicial - moeda sobe rapidamente
+                const phaseT = t / 0.15;
+                const easeT = Math.pow(phaseT, 0.5);
+                
+                coinMesh.position.y = startPos + (2 * easeT);
+                coinMesh.rotation.x = startRotX + (totalRotationX * easeT * 0.3);
+                coinMesh.rotation.y = startRotY + (totalRotationY * easeT * 0.3);
+                
+            } else if (t < 0.85) {
+                // Fase 2 (15-85%): No ar - rotação rápida no topo
+                const phaseT = (t - 0.15) / 0.7;
+                
+                // Movimento vertical parabólico
+                const height = 2 + Math.sin(phaseT * Math.PI) * 0.5;
+                coinMesh.position.y = height;
+                
+                // Rotação rápida e constante
+                coinMesh.rotation.x = startRotX + (totalRotationX * (0.3 + phaseT * 0.6));
+                coinMesh.rotation.y = startRotY + (totalRotationY * (0.3 + phaseT * 0.6));
+                
+            } else {
+                // Fase 3 (85-100%): Queda e parada - desaceleração suave
+                const phaseT = (t - 0.85) / 0.15;
+                const easeT = 1 - Math.pow(1 - phaseT, 4);
+                
+                // Cai de volta à posição original
+                const currentHeight = 2 + Math.sin(0.7 * Math.PI) * 0.5;
+                coinMesh.position.y = currentHeight * (1 - easeT);
+                
+                // Desacelera rotação até a posição final exata
+                const currentRotX = startRotX + (totalRotationX * 0.9);
+                const currentRotY = startRotY + (totalRotationY * 0.9);
+                
+                coinMesh.rotation.x = currentRotX + (targetRotationX - currentRotX) * easeT;
+                coinMesh.rotation.y = currentRotY + (0 - currentRotY) * easeT;
+            }
+
             requestAnimationFrame(animate);
         } else {
-            coinMesh.rotation.y = targetRotationY;
+            // Posição final EXATA
+            coinMesh.position.y = 0;
+            coinMesh.rotation.x = targetRotationX;
+            coinMesh.rotation.y = 0;
+            coinMesh.rotation.z = 0;
+            
+            // Mostrar resultado
             document.getElementById('coin-result').textContent = result;
             isFlipping = false;
         }
     }
-    animate();
+
+    requestAnimationFrame(animate);
 }
 
 // ===== TEMA DARK/LIGHT =====

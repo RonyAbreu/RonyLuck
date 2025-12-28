@@ -15,18 +15,9 @@
     <nav class="nav-game w-full p-5 fixed top-0 z-10">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <h1 class="game-title text-2xl text-amber-500 dark:text-blue-400">RonyLuck</h1>
-            <div class="space-x-6 flex items-center">
+            <div class="flex items-center gap-6">
                 <button onclick="showScreen('home')" class="nav-btn text-base font-bold flex items-center gap-2">
                     <i class="bi bi-house-fill text-xl"></i> Home
-                </button>
-                <button onclick="showScreen('number')" class="nav-btn text-base font-bold flex items-center gap-2">
-                    <i class="bi bi-hash text-xl"></i> Números
-                </button>
-                <button onclick="showScreen('dice')" class="nav-btn text-base font-bold flex items-center gap-2">
-                    <i class="bi bi-dice-5-fill text-xl"></i> Dado
-                </button>
-                <button onclick="showScreen('coin')" class="nav-btn text-base font-bold flex items-center gap-2">
-                    <i class="bi bi-coin text-xl"></i> Moeda
                 </button>
                 <button id="theme-toggle" class="nav-btn text-2xl">🌙</button>
             </div>
@@ -61,6 +52,9 @@
 
         <!-- Number Draw Screen -->
         <div id="number-screen" class="hidden">
+            <button onclick="showScreen('home')" class="back-btn mb-4">
+                <i class="bi bi-arrow-left text-xl"></i> Voltar
+            </button>
             <div class="card-game p-8 rounded-2xl max-w-2xl mx-auto">
                 <h2 class="text-3xl font-bold mb-6 text-amber-600 dark:text-blue-400 text-center flex items-center justify-center gap-3">
                     <i class="bi bi-hash text-4xl"></i> Sorteio de Números
@@ -91,9 +85,12 @@
 
         <!-- Dice Roll Screen -->
         <div id="dice-screen" class="hidden">
+            <button onclick="showScreen('home')" class="back-btn mb-4">
+                <i class="bi bi-arrow-left text-xl"></i> Voltar
+            </button>
             <div class="card-game p-8 rounded-2xl max-w-2xl mx-auto">
                 <h2 class="text-3xl font-bold mb-6 text-amber-600 dark:text-blue-400 text-center flex items-center justify-center gap-3">
-                    <i class="bi bi-dice-5-fill text-4xl"></i> Dado
+                    <i class="bi bi-dice-5-fill text-4xl"></i> Dado 3D
                 </h2>
                 <div class="canvas-container" id="dice-canvas"></div>
                 <div class="flex flex-col items-center space-y-4 mt-6">
@@ -104,9 +101,12 @@
 
         <!-- Coin Flip Screen -->
         <div id="coin-screen" class="hidden">
+            <button onclick="showScreen('home')" class="back-btn mb-4">
+                <i class="bi bi-arrow-left text-xl"></i> Voltar
+            </button>
             <div class="card-game p-8 rounded-2xl max-w-2xl mx-auto">
                 <h2 class="text-3xl font-bold mb-6 text-amber-600 dark:text-blue-400 text-center flex items-center justify-center gap-3">
-                    <i class="bi bi-coin text-4xl"></i> Moeda (Cara ou Coroa)
+                    <i class="bi bi-coin text-4xl"></i> Moeda 3D (Cara ou Coroa)
                 </h2>
                 <div class="canvas-container" id="coin-canvas"></div>
                 <div class="flex flex-col items-center space-y-4 mt-6">
