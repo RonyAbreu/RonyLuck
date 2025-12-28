@@ -134,7 +134,7 @@ function flipCoin() {
 
     const targetEuler = faceRotations[result];
     
-    const duration = 2500;
+    const duration = 2000;
     const startTime = performance.now();
     const startRotation = {
         x: coinMesh.rotation.x,

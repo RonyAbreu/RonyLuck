@@ -97,7 +97,7 @@ function rollDice() {
 
     const targetEuler = faceRotations[result];
     
-    const duration = 4000;
+    const duration = 1000;
     const startTime = performance.now();
     const startRotation = {
         x: diceMesh.rotation.x,
