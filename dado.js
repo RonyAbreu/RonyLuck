@@ -13,6 +13,8 @@ function initDice() {
     const size = Math.min(300, window.innerWidth - 80);
     diceRenderer.setSize(size, size);
     container.appendChild(diceRenderer.domElement);
+    container.style.width = size + 'px';
+    container.style.height = size + 'px';
 
     // Lighting
     const ambient = new THREE.AmbientLight(0xffffff, 0.8);

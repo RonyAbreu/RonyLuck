@@ -198,8 +198,6 @@ body.dark .input-game::placeholder {
 
 /* Canvas Container */
 .canvas-container {
-    width: 300px;
-    height: 300px;
     margin: 0 auto;
     border-radius: 20px;
     overflow: hidden;
@@ -214,11 +212,6 @@ body.dark .input-game::placeholder {
     
     .result-text {
         font-size: 2rem;
-    }
-    
-    .canvas-container {
-        width: 250px;
-        height: 250px;
     }
 }
 
@@ -238,11 +231,6 @@ body.dark .input-game::placeholder {
 }
 
 @media (max-width: 480px) {
-    .canvas-container {
-        width: 220px;
-        height: 220px;
-    }
-    
     .result-text {
         font-size: 1.75rem;
     }
@@ -251,11 +239,6 @@ body.dark .input-game::placeholder {
 @media (max-width: 375px) {
     .game-title {
         font-size: 0.85rem;
-    }
-    
-    .canvas-container {
-        width: 200px;
-        height: 200px;
     }
     
     .card-game {
