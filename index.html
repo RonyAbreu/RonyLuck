@@ -3,168 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RonyLuck</title>
-    <!-- Tailwind CSS via CDN for modern, minimalistic styling -->
+    <title>RonyLuck - Sorteios</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom styles for animations and overrides */
-        body {
-            background-color: #f9fafb;
-            font-family: 'Inter', sans-serif;
-        }
-        @font-face {
-            font-family: 'Inter';
-            src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        }
-        .dice {
-            transition: transform 0.5s ease-in-out;
-        }
-        .dice-rolling {
-            animation: roll 1s infinite;
-        }
-        @keyframes roll {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .coin {
-            transition: transform 1s ease-in-out;
-        }
-        .coin-flipping {
-            animation: flip 1s;
-        }
-        @keyframes flip {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(1800deg); } /* Multiple flips for effect */
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-900">
+<body class="min-h-screen flex flex-col">
     <!-- Navigation Bar -->
-    <nav class="w-full bg-white shadow-md p-4 fixed top-0 z-10">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">RonyLuck</h1>
-            <div class="space-x-4">
-                <button onclick="showScreen('home')" class="text-sm font-medium hover:text-blue-600">Home</button>
-                <button onclick="showScreen('number')" class="text-sm font-medium hover:text-blue-600">Sorteio de Número</button>
-                <button onclick="showScreen('dice')" class="text-sm font-medium hover:text-blue-600">Dado</button>
-                <button onclick="showScreen('coin')" class="text-sm font-medium hover:text-blue-600">Moeda</button>
+    <nav class="nav-game w-full p-5 fixed top-0 z-10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="game-title text-2xl text-amber-500 dark:text-blue-400">RonyLuck</h1>
+            <div class="space-x-6 flex items-center">
+                <button onclick="showScreen('home')" class="nav-btn text-base font-bold flex items-center gap-2">
+                    <i class="bi bi-house-fill text-xl"></i> Home
+                </button>
+                <button onclick="showScreen('number')" class="nav-btn text-base font-bold flex items-center gap-2">
+                    <i class="bi bi-hash text-xl"></i> Números
+                </button>
+                <button onclick="showScreen('dice')" class="nav-btn text-base font-bold flex items-center gap-2">
+                    <i class="bi bi-dice-5-fill text-xl"></i> Dado
+                </button>
+                <button onclick="showScreen('coin')" class="nav-btn text-base font-bold flex items-center gap-2">
+                    <i class="bi bi-coin text-xl"></i> Moeda
+                </button>
+                <button id="theme-toggle" class="nav-btn text-2xl">🌙</button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
-    <main class="max-w-4xl mx-auto mt-20 p-6 flex-grow">
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto mt-24 p-6 flex-grow">
         
         <!-- Home Screen -->
         <div id="home-screen" class="text-center">
-            <h2 class="text-3xl font-semibold mb-4">Bem-vindo ao RonyLuck!</h2>
-            <p class="text-lg mb-6">Uma ferramenta simples para sorteios aleatórios. Escolha uma opção no menu acima para começar.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                    <h3 class="font-medium">Sorteio de Número</h3>
-                    <p class="text-sm text-gray-600">Sorteie um número entre min e max.</p>
+            <h2 class="game-title text-4xl mb-8 text-white">Bem-vindo!</h2>
+            <p class="text-xl mb-10 text-white font-semibold">Escolha sua sorte!</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card-game p-8 rounded-2xl cursor-pointer" onclick="showScreen('number')">
+                    <i class="bi bi-hash text-7xl mb-4 text-amber-500 dark:text-blue-400"></i>
+                    <h3 class="font-bold text-2xl text-amber-600 dark:text-blue-400 mb-2">Sorteio</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Números únicos e aleatórios</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                    <h3 class="font-medium">Rolar Dado</h3>
-                    <p class="text-sm text-gray-600">Role um dado de 6 lados.</p>
+                <div class="card-game p-8 rounded-2xl cursor-pointer" onclick="showScreen('dice')">
+                    <i class="bi bi-dice-5-fill text-7xl mb-4 text-amber-500 dark:text-blue-400"></i>
+                    <h3 class="font-bold text-2xl text-amber-600 dark:text-blue-400 mb-2">Dado 3D</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Role um dado realista</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                    <h3 class="font-medium">Cara ou Coroa</h3>
-                    <p class="text-sm text-gray-600">Jogue uma moeda.</p>
+                <div class="card-game p-8 rounded-2xl cursor-pointer" onclick="showScreen('coin')">
+                    <i class="bi bi-coin text-7xl mb-4 text-amber-500 dark:text-blue-400"></i>
+                    <h3 class="font-bold text-2xl text-amber-600 dark:text-blue-400 mb-2">Moeda 3D</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Cara ou Coroa realista</p>
                 </div>
             </div>
         </div>
 
         <!-- Number Draw Screen -->
-        <div id="number-screen" class="hidden text-center">
-            <h2 class="text-2xl font-semibold mb-4">Sorteio de Número</h2>
-            <p class="mb-6">Defina o intervalo e sorteie um número aleatório.</p>
-            <div class="flex flex-col items-center space-y-4">
-                <input id="min-input" type="number" placeholder="Mínimo (ex: 1)" class="w-64 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input id="max-input" type="number" placeholder="Máximo (ex: 100)" class="w-64 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button onclick="drawNumber()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Sortear</button>
-                <p id="number-result" class="text-xl font-bold mt-4"></p>
+        <div id="number-screen" class="hidden">
+            <div class="card-game p-8 rounded-2xl max-w-2xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-amber-600 dark:text-blue-400 text-center flex items-center justify-center gap-3">
+                    <i class="bi bi-hash text-4xl"></i> Sorteio de Números
+                </h2>
+                <div class="flex flex-col items-center space-y-4 mb-6">
+                    <input id="min-input" type="number" placeholder="Número Mínimo" class="input-game w-full max-w-md p-4 rounded-xl focus:outline-none">
+                    <input id="max-input" type="number" placeholder="Número Máximo" class="input-game w-full max-w-md p-4 rounded-xl focus:outline-none">
+                    
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" id="unique-check" class="w-5 h-5 accent-amber-500">
+                        <label for="unique-check" class="font-bold text-gray-700 dark:text-gray-300">Não repetir números</label>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button onclick="drawNumber()" class="btn-game text-white px-8 py-4 rounded-xl">Sortear</button>
+                        <button onclick="resetNumbers()" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-4 rounded-xl font-bold transition">Reiniciar</button>
+                    </div>
+                </div>
+                
+                <div id="number-result" class="result-text text-center mb-6"></div>
+                
+                <div id="drawn-numbers-section" class="hidden">
+                    <h3 class="font-bold text-xl text-center mb-4 text-gray-700 dark:text-gray-300">Números Sorteados:</h3>
+                    <div id="drawn-numbers" class="number-list"></div>
+                </div>
             </div>
         </div>
 
         <!-- Dice Roll Screen -->
-        <div id="dice-screen" class="hidden text-center">
-            <h2 class="text-2xl font-semibold mb-4">Rolar Dado de 6 Lados</h2>
-            <p class="mb-6">Clique para rolar o dado.</p>
-            <div class="flex flex-col items-center space-y-4">
-                <div id="dice" class="dice text-6xl">🎲</div>
-                <button onclick="rollDice()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Rolar</button>
-                <p id="dice-result" class="text-xl font-bold mt-4"></p>
+        <div id="dice-screen" class="hidden">
+            <div class="card-game p-8 rounded-2xl max-w-2xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-amber-600 dark:text-blue-400 text-center flex items-center justify-center gap-3">
+                    <i class="bi bi-dice-5-fill text-4xl"></i> Dado 3D
+                </h2>
+                <div class="dice-container">
+                    <div class="dice" id="dice">
+                        <ol class="die-list">
+                            <li class="die-item" data-side="1">
+                                <span class="dot"></span>
+                            </li>
+                            <li class="die-item" data-side="2">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </li>
+                            <li class="die-item" data-side="3">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </li>
+                            <li class="die-item" data-side="4">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </li>
+                            <li class="die-item" data-side="5">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </li>
+                            <li class="die-item" data-side="6">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center space-y-4 mt-6">
+                    <button onclick="rollDice()" class="btn-game text-white px-8 py-4 rounded-xl">Rolar Dado</button>
+                    <div id="dice-result" class="result-text text-center"></div>
+                </div>
             </div>
         </div>
 
         <!-- Coin Flip Screen -->
-        <div id="coin-screen" class="hidden text-center">
-            <h2 class="text-2xl font-semibold mb-4">Cara ou Coroa</h2>
-            <p class="mb-6">Clique para jogar a moeda.</p>
-            <div class="flex flex-col items-center space-y-4">
-                <div id="coin" class="coin text-6xl">🪙</div>
-                <button onclick="flipCoin()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Jogar</button>
-                <p id="coin-result" class="text-xl font-bold mt-4"></p>
+        <div id="coin-screen" class="hidden">
+            <div class="card-game p-8 rounded-2xl max-w-2xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-amber-600 dark:text-blue-400 text-center flex items-center justify-center gap-3">
+                    <i class="bi bi-coin text-4xl"></i> Moeda 3D
+                </h2>
+                <div class="canvas-container" id="coin-canvas"></div>
+                <div class="flex flex-col items-center space-y-4 mt-6">
+                    <button onclick="flipCoin()" class="btn-game text-white px-8 py-4 rounded-xl">Jogar Moeda</button>
+                    <div id="coin-result" class="result-text text-center"></div>
+                </div>
             </div>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="w-full bg-white shadow-md p-4 mt-auto">
-        <div class="max-w-4xl mx-auto text-center text-sm text-gray-600">
-            © 2025 RonyLuck. Criado por Rony.
+    <footer class="nav-game w-full p-4 mt-auto">
+        <div class="max-w-6xl mx-auto text-center text-sm font-semibold nav-btn">
+            © 2025 RonyLuck. Criado por Rony <i class="bi bi-controller"></i>
         </div>
     </footer>
 
-    <!-- JavaScript for Functionality -->
-    <script>
-        // Show/Hide Screens
-        function showScreen(screen) {
-            const screens = ['home', 'number', 'dice', 'coin'];
-            screens.forEach(s => {
-                document.getElementById(`${s}-screen`).classList.add('hidden');
-            });
-            document.getElementById(`${screen}-screen`).classList.remove('hidden');
-        }
-
-        // Draw Number
-        function drawNumber() {
-            const min = parseInt(document.getElementById('min-input').value) || 1;
-            const max = parseInt(document.getElementById('max-input').value) || 100;
-            if (min > max) {
-                alert('Mínimo deve ser menor que máximo!');
-                return;
-            }
-            const result = Math.floor(Math.random() * (max - min + 1)) + min;
-            document.getElementById('number-result').textContent = `Número sorteado: ${result}`;
-        }
-
-        // Roll Dice
-        function rollDice() {
-            const dice = document.getElementById('dice');
-            dice.classList.add('dice-rolling');
-            setTimeout(() => {
-                dice.classList.remove('dice-rolling');
-                const result = Math.floor(Math.random() * 6) + 1;
-                document.getElementById('dice-result').textContent = `Resultado: ${result}`;
-            }, 1000);
-        }
-
-        // Flip Coin
-        function flipCoin() {
-            const coin = document.getElementById('coin');
-            coin.classList.add('coin-flipping');
-            setTimeout(() => {
-                coin.classList.remove('coin-flipping');
-                const result = Math.random() < 0.5 ? 'Cara' : 'Coroa';
-                document.getElementById('coin-result').textContent = `Resultado: ${result}`;
-            }, 1000);
-        }
-
-        // Initial Load
-        showScreen('home');
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
